@@ -3,14 +3,17 @@ package turfcuttinggui;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+
 public class DatabaseConnection {
     public Connection databaseLink;
 
     public Connection getConnection() {
         String databaseName     = "TurfCuttingDB";
         String databaseUser     = "root";
-        String databasePassword = "";
-        String url              = "jdbc:mysql://localhost/" + databaseName;
+        String databasePassword = "password";
+        String url              = "jdbc:mysql://localhost:1433/" + databaseName;
+
+
 
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");

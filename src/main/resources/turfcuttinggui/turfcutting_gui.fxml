@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="turfcuttinggui.Controller">
+        <TextField layoutX="570.0" layoutY="72.0" prefHeight="25.0" prefWidth="211.0" promptText="Zip Code" />
+        <TextField layoutX="570.0" layoutY="32.0" prefHeight="25.0" prefWidth="211.0" promptText="City" />
+        <Button id="submit_b" layoutX="793.0" layoutY="32.0" mnemonicParsing="false" onAction="#onSubmitButtonClick" prefHeight="25.0" prefWidth="89.0" text="Submit" textAlignment="CENTER" />
+        <Button id="clear_b" layoutX="793.0" layoutY="72.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Clear" textFill="#141414" />
+        <Button id="export_b" layoutX="786.0" layoutY="511.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Export to CSV" />
+   <TableView layoutX="14.0" layoutY="32.0" prefHeight="505.0" prefWidth="535.0">
+     <columns>
+       <TableColumn prefWidth="75.0" text="C1" />
+       <TableColumn prefWidth="75.0" text="C2" />
+     </columns>
+   </TableView>
+   <TitledPane animated="false" layoutX="570.0" layoutY="109.0" prefHeight="395.0" prefWidth="310.0" text="Select Information to be presented.">
+     <content>
+       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <children>
+                <CheckBox fx:id="FULL_NAME" layoutX="109.0" layoutY="23.0" mnemonicParsing="false" onAction="#getName" prefHeight="25.0" prefWidth="75.0" text="Name" />
+                <CheckBox fx:id="ADDRESS" layoutX="11.0" layoutY="52.0" mnemonicParsing="false" onAction="#getAddress" prefHeight="25.0" prefWidth="75.0" text="Address" />
+                <CheckBox fx:id="CELL_PHONE" layoutX="190.0" layoutY="27.0" mnemonicParsing="false" onAction="#getCellPhone" prefHeight="17.0" prefWidth="90.0" text="Cell Phone" />
+                <CheckBox fx:id="CITY" layoutX="191.0" layoutY="52.0" mnemonicParsing="false" onAction="#getCity" prefHeight="25.0" prefWidth="75.0" text="City" />
+                <CheckBox fx:id="EMAIL" layoutX="199.0" layoutY="113.0" mnemonicParsing="false" onAction="#getEmail" prefHeight="25.0" prefWidth="115.0" text="Personal Email" textAlignment="CENTER" />
+                <CheckBox fx:id="ID" layoutX="11.0" layoutY="23.0" mnemonicParsing="false" onAction="#getIDNum" prefHeight="25.0" prefWidth="75.0" text="ID Number" />
+                <CheckBox fx:id="ZIP_CODE" layoutX="110.0" layoutY="56.0" mnemonicParsing="false" onAction="#getZip" prefWidth="75.0" text="Zip Code" />
+                <CheckBox fx:id="WORK_EMAIL" layoutX="187.0" layoutY="82.0" mnemonicParsing="false" onAction="#getWorkEmail" prefHeight="25.0" prefWidth="96.0" text="Work Email" textAlignment="CENTER" />
+                <CheckBox fx:id="HIRE_DATE" layoutX="111.0" layoutY="86.0" mnemonicParsing="false" onAction="#getHireDate" text="Hire Date" />
+                <CheckBox fx:id="DEPT_NAME" layoutX="111.0" layoutY="141.0" mnemonicParsing="false" text="Department Info" />
+                <CheckBox fx:id="HOME_PHONE" layoutX="111.0" layoutY="117.0" mnemonicParsing="false" onAction="#getHomePhone" text="Home Phone" />
+                <CheckBox fx:id="LOCATION_DESCRIPTION" layoutX="110.0" layoutY="168.0" mnemonicParsing="false" text="Location Description" />
+                <CheckBox fx:id="ANNIVERSARY_DATE" layoutX="7.0" layoutY="104.0" mnemonicParsing="false" onAction="#getAnniversaryDate" text="Anniversary" />
+                <CheckBox fx:id="SENIOR_DATE" layoutX="7.0" layoutY="132.0" mnemonicParsing="false" text="Senior Date" />
+                <CheckBox fx:id="JOB_DESCRIPTION" layoutX="11.0" layoutY="77.0" mnemonicParsing="false" onAction="#getDepartmentName" text="Job Title" />
+                <CheckBox fx:id="STATE" layoutX="109.0" layoutY="196.0" mnemonicParsing="false" text="State" />
+            </children>
+         </AnchorPane>
+     </content>
+   </TitledPane>
+</AnchorPane>

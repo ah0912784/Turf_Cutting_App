@@ -26,15 +26,12 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="7a4ba5c6-7393-4c6d-8c7e-0c375d0401d3">
-        <schema name="turfcuttingdb" object-types="table, view, procedure, function" />
+        <schema name="turfcuttingdb" object-types="table, view" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="7a4ba5c6-7393-4c6d-8c7e-0c375d0401d3">
-      <console name="Connection" type="STANDARD" schema="" session="Main"><![CDATA[USE TurfCuttingDB;
-
-Select * FROM Persons;]]></console>
       <console name="TurfCuttingDB" type="STANDARD" schema="turfcuttingdb" session="Main"><![CDATA[use TurfCuttingDB;
 
 select * from Persons]]></console>
@@ -78,17 +75,17 @@ select * from Persons]]></console>
           <description value="" />
           <database-type value="MYSQL" />
           <config-type value="BASIC" />
-          <database-version value="5.6" />
+          <database-version value="8.0" />
           <driver-source value="BUILTIN" />
           <driver-library value="" />
           <driver value="" />
           <url-type value="DATABASE" />
           <host value="localhost" />
-          <port value="3306" />
+          <port value="1433" />
           <database value="mysql" />
-          <type value="USER" />
+          <type value="USER_PASSWORD" />
           <user value="root" />
-          <deprecated-pwd value="" />
+          <deprecated-pwd value="cGFzc3dvcmQ=" />
         </database>
         <properties>
           <auto-commit value="false" />
@@ -114,7 +111,7 @@ select * from Persons]]></console>
           <session-management value="true" />
           <ddl-file-binding value="true" />
           <database-logging value="false" />
-          <connect-automatically value="true" />
+          <connect-automatically value="false" />
           <restore-workspace value="true" />
           <restore-workspace-deep value="true" />
           <environment-type value="default" />
