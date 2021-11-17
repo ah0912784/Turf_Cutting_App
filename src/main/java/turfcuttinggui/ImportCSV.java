@@ -1,6 +1,6 @@
 package turfcuttinggui;
 //handle the manipulation of data from java query and the export of java query to csv
-public class DataHandling {
+public class ImportCSV {
 
     //build csv export
 

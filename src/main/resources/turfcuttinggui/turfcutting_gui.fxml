@@ -4,37 +4,52 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="turfcuttinggui.Controller">
-        <TextField layoutX="570.0" layoutY="72.0" prefHeight="25.0" prefWidth="211.0" promptText="Zip Code" />
-        <TextField layoutX="570.0" layoutY="32.0" prefHeight="25.0" prefWidth="211.0" promptText="City" />
+        <TextField fx:id="zipTextField" layoutX="570.0" layoutY="72.0" prefHeight="25.0" prefWidth="211.0" promptText="Zip Code" />
+        <TextField fx:id="cityTextField" layoutX="570.0" layoutY="32.0" prefHeight="25.0" prefWidth="211.0" promptText="City" />
         <Button id="submit_b" layoutX="793.0" layoutY="32.0" mnemonicParsing="false" onAction="#onSubmitButtonClick" prefHeight="25.0" prefWidth="89.0" text="Submit" textAlignment="CENTER" />
         <Button id="clear_b" layoutX="793.0" layoutY="72.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Clear" textFill="#141414" />
-        <Button id="export_b" layoutX="786.0" layoutY="511.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Export to CSV" />
-   <TableView layoutX="14.0" layoutY="32.0" prefHeight="505.0" prefWidth="535.0">
-     <columns>
-       <TableColumn prefWidth="75.0" text="C1" />
-       <TableColumn prefWidth="75.0" text="C2" />
-     </columns>
-   </TableView>
+        <Button layoutX="786.0" layoutY="511.0" mnemonicParsing="false" prefHeight="25.0" onAction="#exportData" prefWidth="97.0" text="Export to CSV" />
+   <TableView fx:id="tableView" layoutX="14.0" layoutY="32.0" prefHeight="505.0" prefWidth="535.0" />
    <TitledPane animated="false" layoutX="570.0" layoutY="109.0" prefHeight="395.0" prefWidth="310.0" text="Select Information to be presented.">
      <content>
        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
             <children>
-                <CheckBox fx:id="FULL_NAME" layoutX="109.0" layoutY="23.0" mnemonicParsing="false" onAction="#getName" prefHeight="25.0" prefWidth="75.0" text="Name" />
-                <CheckBox fx:id="ADDRESS" layoutX="11.0" layoutY="52.0" mnemonicParsing="false" onAction="#getAddress" prefHeight="25.0" prefWidth="75.0" text="Address" />
-                <CheckBox fx:id="CELL_PHONE" layoutX="190.0" layoutY="27.0" mnemonicParsing="false" onAction="#getCellPhone" prefHeight="17.0" prefWidth="90.0" text="Cell Phone" />
-                <CheckBox fx:id="CITY" layoutX="191.0" layoutY="52.0" mnemonicParsing="false" onAction="#getCity" prefHeight="25.0" prefWidth="75.0" text="City" />
-                <CheckBox fx:id="EMAIL" layoutX="199.0" layoutY="113.0" mnemonicParsing="false" onAction="#getEmail" prefHeight="25.0" prefWidth="115.0" text="Personal Email" textAlignment="CENTER" />
-                <CheckBox fx:id="ID" layoutX="11.0" layoutY="23.0" mnemonicParsing="false" onAction="#getIDNum" prefHeight="25.0" prefWidth="75.0" text="ID Number" />
-                <CheckBox fx:id="ZIP_CODE" layoutX="110.0" layoutY="56.0" mnemonicParsing="false" onAction="#getZip" prefWidth="75.0" text="Zip Code" />
-                <CheckBox fx:id="WORK_EMAIL" layoutX="187.0" layoutY="82.0" mnemonicParsing="false" onAction="#getWorkEmail" prefHeight="25.0" prefWidth="96.0" text="Work Email" textAlignment="CENTER" />
-                <CheckBox fx:id="HIRE_DATE" layoutX="111.0" layoutY="86.0" mnemonicParsing="false" onAction="#getHireDate" text="Hire Date" />
-                <CheckBox fx:id="DEPT_NAME" layoutX="111.0" layoutY="141.0" mnemonicParsing="false" text="Department Info" />
-                <CheckBox fx:id="HOME_PHONE" layoutX="111.0" layoutY="117.0" mnemonicParsing="false" onAction="#getHomePhone" text="Home Phone" />
-                <CheckBox fx:id="LOCATION_DESCRIPTION" layoutX="110.0" layoutY="168.0" mnemonicParsing="false" text="Location Description" />
-                <CheckBox fx:id="ANNIVERSARY_DATE" layoutX="7.0" layoutY="104.0" mnemonicParsing="false" onAction="#getAnniversaryDate" text="Anniversary" />
-                <CheckBox fx:id="SENIOR_DATE" layoutX="7.0" layoutY="132.0" mnemonicParsing="false" text="Senior Date" />
-                <CheckBox fx:id="JOB_DESCRIPTION" layoutX="11.0" layoutY="77.0" mnemonicParsing="false" onAction="#getDepartmentName" text="Job Title" />
-                <CheckBox fx:id="STATE" layoutX="109.0" layoutY="196.0" mnemonicParsing="false" text="State" />
+                <HBox alignment="TOP_CENTER" prefHeight="33.0" prefWidth="310.0" />
+                <HBox layoutX="-2.0" layoutY="30.0" prefHeight="25.0" prefWidth="310.0" />
+               <GridPane layoutX="9.0" layoutY="9.0" prefHeight="369.0" prefWidth="308.0" AnchorPane.bottomAnchor="10.200000000000045" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="10.200000000000045" AnchorPane.topAnchor="9.0">
+                 <columnConstraints>
+                   <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="141.99999237060547" />
+                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="224.0" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="224.0" minWidth="10.0" prefWidth="113.0" />
+                 </columnConstraints>
+                 <rowConstraints>
+                   <RowConstraints maxHeight="54.00000190734863" vgrow="SOMETIMES" />
+                   <RowConstraints maxHeight="73.0" vgrow="SOMETIMES" />
+                   <RowConstraints maxHeight="88.0" vgrow="SOMETIMES" />
+                     <RowConstraints maxHeight="161.0" vgrow="SOMETIMES" />
+                     <RowConstraints maxHeight="173.0" vgrow="SOMETIMES" />
+                     <RowConstraints maxHeight="173.0" vgrow="SOMETIMES" />
+                 </rowConstraints>
+                  <children>
+                   <CheckBox fx:id="FULL_NAME" mnemonicParsing="false" onAction="#getName" prefHeight="33.0" prefWidth="91.0" text="Name" />
+                   <CheckBox fx:id="ADDRESS" mnemonicParsing="false" onAction="#getAddress" prefHeight="33.0" prefWidth="109.0" text="Address" GridPane.columnIndex="1" />
+                      <CheckBox fx:id="CITY" mnemonicParsing="false" onAction="#getCity" prefHeight="37.0" prefWidth="75.0" text="City" GridPane.columnIndex="2" />
+                   <CheckBox fx:id="ZIP_CODE" mnemonicParsing="false" onAction="#getZip" prefWidth="75.0" text="Zip Code" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                      <CheckBox fx:id="STATE" mnemonicParsing="false" onAction="#getState" text="State" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                   <CheckBox fx:id="ID" mnemonicParsing="false" onAction="#getIDNum" prefHeight="25.0" prefWidth="87.0" text="ID Number" wrapText="true" GridPane.rowIndex="1" />
+                   <CheckBox fx:id="CELL_PHONE" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#getCellPhone" prefHeight="45.0" prefWidth="90.0" text="Cell Phone" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                   <CheckBox fx:id="EMAIL" mnemonicParsing="false" onAction="#getEmail" prefHeight="48.0" prefWidth="81.0" text="Personal Email" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="2" />
+                      <CheckBox fx:id="HOME_PHONE" mnemonicParsing="false" onAction="#getHomePhone" text="Home Phone" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                      <CheckBox fx:id="HIRE_DATE" mnemonicParsing="false" onAction="#getHireDate" text="Hire Date" GridPane.rowIndex="3" />
+                      <CheckBox fx:id="SENIOR_DATE" mnemonicParsing="false" onAction="#getSeniorDate" text="Senior Date" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                      <CheckBox fx:id="ANNIVERSARY_DATE" mnemonicParsing="false" onAction="#getAnniversaryDate" text="Anniversary" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                      <CheckBox fx:id="JOB_DESCRIPTION" mnemonicParsing="false" onAction="#getJobTitle" text="Job Title" GridPane.rowIndex="4" />
+                      <CheckBox fx:id="WORK_EMAIL" mnemonicParsing="false" onAction="#getWorkEmail" prefHeight="25.0" prefWidth="96.0" text="Work Email" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                      <CheckBox fx:id="DEPT_NAME" mnemonicParsing="false" onAction="#getDepartmentName" text="Department Info" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                      <CheckBox fx:id="LOCATION_DESCRIPTION" mnemonicParsing="false" onAction="#getLocationDescription" prefHeight="58.0" prefWidth="101.0" text="Location Description" textOverrun="CENTER_WORD_ELLIPSIS" wrapText="true" GridPane.rowIndex="5" />
+                  </children>
+               </GridPane>
+
             </children>
          </AnchorPane>
      </content>

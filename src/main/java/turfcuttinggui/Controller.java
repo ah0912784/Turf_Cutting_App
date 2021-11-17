@@ -1,9 +1,16 @@
 package turfcuttinggui;
 
+import javafx.beans.Observable;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableListValue;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 
 import javax.xml.transform.Result;
 import java.sql.Connection;
@@ -16,7 +23,25 @@ import java.util.ArrayList;
 
 //Create events to control button inputs
 public class Controller {
-    public ArrayList<String> queryList = new ArrayList<String>();
+    //queryList is to get appropriate field names for mySql query
+    private ArrayList<String> queryList = new ArrayList<String>();
+    //get user input for the WHERE clause in sql method, used in buildConstraint
+    private String usrZip;
+    private String usrCity;
+    //used in building rows for dynamic tableview display
+    private ObservableList<ObservableList> data;
+    //Data export variables will be used to save mySql query when submit button is clicked
+    //and then used in export data methods.
+    private String mySqlQuery;
+
+    //TableView where output columns are displayed
+    @FXML
+    private TableView tableView;
+    //TextField FXML IDs will be used for getting user constraints
+    @FXML
+    private TextField zipTextField;
+    @FXML
+    private TextField cityTextField;
 
     //CheckBox FXML IDs
     @FXML
@@ -49,23 +74,60 @@ public class Controller {
     private CheckBox ANNIVERSARY_DATE;
     @FXML
     private CheckBox SENIOR_DATE;
+    @FXML
+    private CheckBox JOB_DESCRIPTION;
 
     @FXML
     protected void onSubmitButtonClick() {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
-        String connectQuery = "SELECT FULL_NAME FROM Persons";
-
+        String connectQuery = "SELECT "+buildQueryString();
+        System.out.println(connectQuery);
+        mySqlQuery = connectQuery;
         try{
             Statement statement = connectDB.createStatement();
             ResultSet queryOutput = statement.executeQuery(connectQuery);
+            //get data to ExportCSV class
+            ExportCSV exportCSV = new ExportCSV();
+            exportCSV.rs = queryOutput;
+            exportCSV.statementExp = statement;
             System.out.println(queryOutput);
 
-            while(queryOutput.next()){
+            for (int i = 0; i < queryOutput.getMetaData().getColumnCount();i++){
+                //build the dynamic table
+                final int j = i;
+                TableColumn col = new TableColumn(queryOutput.getMetaData().getColumnName(i+1));
+                col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>)
+                        param -> new SimpleStringProperty(param.getValue().get(j).toString()));
+                tableView.getColumns().addAll(col);
+                System.out.println("Column ["+i+"] ");
 
-                //preview_sp.setContent(new TextArea(queryOutput.getString("FULL_NAME")));
-                System.out.println(queryOutput.getString("FULL_NAME"));
             }
+            while (queryOutput.next()){
+                int columnsNumber = queryOutput.getMetaData().getColumnCount();
+                for (int i = 1; i <= columnsNumber; i++) {
+                    if (i > 1) System.out.print(",  ");
+                    String columnValue = queryOutput.getString(i);
+                    System.out.print(columnValue + " " + queryOutput.getMetaData().getColumnName(i));
+                }
+                System.out.println("");
+            }
+            System.out.println(queryOutput.getMetaData().getColumnCount()+" this is the queryOutput MD column size");
+            while (queryOutput.next()){
+            //Iterate Row
+            ObservableList<String> row = FXCollections.observableArrayList();
+            for(int i=1 ; i<= queryOutput.getMetaData().getColumnCount(); i++){
+                //Iterate Column
+
+                System.out.println(i+" This is i in the Iterate Column Section");
+                row.add(queryOutput.getString(i));
+            }
+            System.out.println("Row [1] added "+row );
+            data.add(row);
+
+        }
+            tableView.setItems(data);
+
 
             statement.close();
             //connectQuery.close();
@@ -74,31 +136,37 @@ public class Controller {
         }
 
     }
-//Might need for later
-//    public void db_connect() {
-//        DatabaseConnection connectNow = new DatabaseConnection();
-//        Connection connectDB = connectNow.getConnection();
-//        String connectQuery = "SELECT FULL_NAME FROM Persons";
-//
-//        try{
-//            Statement statement = connectDB.createStatement();
-//            ResultSet queryOutput = statement.executeQuery(connectQuery);
-//
-//            while(queryOutput.next()){
-//                //preview_sp.setText(queryOutput.getString("ID"));
-//            }
-//
-//
-//        }catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
+
+
+public String buildQueryString(){
+        String query = "";
+        String constraint = buildConstraint();
+        System.out.println(constraint);
+        if (queryList.size() == 1) {
+            query = queryList.get(0)+" FROM Persons "+constraint;
+        }
+        if (queryList.size() > 1){
+            query = queryList.get(0);
+            for(int i = 1; i < queryList.size(); i++) {
+                if (i != queryList.size()-1){
+                    query += ", "+queryList.get(i);
+                }if (queryList.size()-1 == i){
+                    query += ", " + queryList.get(i) +" FROM Persons "+constraint;
+                }
+            }//end of for
+        }//end of else
+
+        return query;
+}//end of buildQueryString
 
     @FXML
     public void setText(){
 
     }
+    //Methods for building queries
+
+    //Used for putting Selected Columns together
     @FXML
     public void cbBuildQuery(CheckBox id, String fieldName){
 
@@ -112,10 +180,58 @@ public class Controller {
                     }
                 }
             }catch (ArrayIndexOutOfBoundsException ee) {
-
+                System.out.println(id+" does not exist in the array");
             }
         }
 }
+    //the boolean is to decide which is zip and which is city name
+
+
+    //Will be used for putting WHERE constraints
+    public String buildConstraint(){
+        String constraint = ";";
+
+        if (usrCity != null && usrZip != null) {
+            constraint = "WHERE CITY = " + usrCity + " AND ZIP_CODE = " + usrZip + ";";
+        }
+        if (usrCity != null && usrZip ==null){
+            constraint = "WHERE CITY = "+usrCity+";";
+        }
+        if (usrCity == null && usrZip !=null){
+            constraint = "WHERE ZIP_CODE = "+usrZip +";";
+        }
+        return constraint;
+    }
+//Methods for getting text values for zip codes and cities from FXMl
+
+    @FXML
+    public void getZipInput(){
+        //Zip code is true for getCondition Method
+        if (zipTextField.getText().isEmpty()) {
+           usrZip = null;
+        } else{
+            usrZip = zipTextField.getText();
+        }
+
+    }
+    @FXML
+    public void getCityInput(){
+        //city is false
+        if (cityTextField.getText().isEmpty()){
+            usrCity = null;
+        } else{
+            usrCity = cityTextField.getText();
+        }
+
+    }
+    //exportBtn method
+    @FXML
+    public void exportData(ActionEvent e){
+        ExportCSV exportCSV = new ExportCSV();
+        exportCSV.export("Persons");
+    }
+
+//Methods for getting check box values
     @FXML
     public void getAddress(ActionEvent e) {
 
@@ -177,6 +293,10 @@ public class Controller {
     @FXML
     public void getState(ActionEvent e){
         cbBuildQuery(STATE,"STATE");
+    }
+    @FXML
+    public void getJobTitle(){
+        cbBuildQuery(JOB_DESCRIPTION,"JOB_DESCRIPTION");
     }
 
 }//end of class
