@@ -7,7 +7,7 @@
         <TextField fx:id="zipTextField" layoutX="570.0" layoutY="72.0" prefHeight="25.0" prefWidth="211.0" promptText="Zip Code" />
         <TextField fx:id="cityTextField" layoutX="570.0" layoutY="32.0" prefHeight="25.0" prefWidth="211.0" promptText="City" />
         <Button id="submit_b" layoutX="793.0" layoutY="32.0" mnemonicParsing="false" onAction="#onSubmitButtonClick" prefHeight="25.0" prefWidth="89.0" text="Submit" textAlignment="CENTER" />
-        <Button id="clear_b" layoutX="793.0" layoutY="72.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Clear" textFill="#141414" />
+        <Button id="clear_b" layoutX="793.0" layoutY="72.0" mnemonicParsing="false" prefHeight="25.0" onAction="#clearData" prefWidth="90.0" text="Clear" textFill="#141414" />
         <Button layoutX="786.0" layoutY="511.0" mnemonicParsing="false" prefHeight="25.0" onAction="#exportData" prefWidth="97.0" text="Export to CSV" />
    <TableView fx:id="tableView" layoutX="14.0" layoutY="32.0" prefHeight="505.0" prefWidth="535.0" />
    <TitledPane animated="false" layoutX="570.0" layoutY="109.0" prefHeight="395.0" prefWidth="310.0" text="Select Information to be presented.">

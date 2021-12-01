@@ -26,6 +26,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="7a4ba5c6-7393-4c6d-8c7e-0c375d0401d3">
+        <schema name="information_schema" object-types="table, view" />
         <schema name="turfcuttingdb" object-types="table, view" />
       </connection>
     </loaded-nodes>

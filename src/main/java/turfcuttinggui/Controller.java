@@ -1,35 +1,34 @@
 package turfcuttinggui;
 
-import javafx.beans.Observable;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableListValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
-import javafx.scene.text.Text;
 import javafx.util.Callback;
 
-import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
-
-
+import java.util.*;
 
 
 //Create events to control button inputs
 public class Controller {
+    //test variable for counting loops
+    private int counter = 0;
     //queryList is to get appropriate field names for mySql query
     private ArrayList<String> queryList = new ArrayList<String>();
     //get user input for the WHERE clause in sql method, used in buildConstraint
     private String usrZip;
     private String usrCity;
     //used in building rows for dynamic tableview display
-    private ObservableList<ObservableList> data;
+    public ObservableList<ObservableList> data = FXCollections.observableArrayList();
     //Data export variables will be used to save mySql query when submit button is clicked
     //and then used in export data methods.
     private String mySqlQuery;
@@ -93,44 +92,45 @@ public class Controller {
             exportCSV.statementExp = statement;
             System.out.println(queryOutput);
 
-            for (int i = 0; i < queryOutput.getMetaData().getColumnCount();i++){
+            for (int i = 0; i < queryOutput.getMetaData().getColumnCount();i++) {
                 //build the dynamic table
                 final int j = i;
-                TableColumn col = new TableColumn(queryOutput.getMetaData().getColumnName(i+1));
+
+                TableColumn col = new TableColumn(queryOutput.getMetaData().getColumnName(i + 1));
                 col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>)
                         param -> new SimpleStringProperty(param.getValue().get(j).toString()));
                 tableView.getColumns().addAll(col);
-                System.out.println("Column ["+i+"] ");
+                System.out.println("Column [" + i + "] ");
+            }
 
-            }
-            while (queryOutput.next()){
-                int columnsNumber = queryOutput.getMetaData().getColumnCount();
-                for (int i = 1; i <= columnsNumber; i++) {
-                    if (i > 1) System.out.print(",  ");
-                    String columnValue = queryOutput.getString(i);
-                    System.out.print(columnValue + " " + queryOutput.getMetaData().getColumnName(i));
-                }
-                System.out.println("");
-            }
+
             System.out.println(queryOutput.getMetaData().getColumnCount()+" this is the queryOutput MD column size");
+
             while (queryOutput.next()){
             //Iterate Row
             ObservableList<String> row = FXCollections.observableArrayList();
             for(int i=1 ; i<= queryOutput.getMetaData().getColumnCount(); i++){
                 //Iterate Column
-
-                System.out.println(i+" This is i in the Iterate Column Section");
+                //System.out.println(i+" This is i in the Iterate Column Section "+queryOutput.getString(i));
                 row.add(queryOutput.getString(i));
             }
-            System.out.println("Row [1] added "+row );
-            data.add(row);
+                if (row == null) {
+                 System.out.println("row was null");
+                } else {
+                    System.out.println("Row [1] added " + row);
+                    data.addAll(row);
+                }
+
 
         }
+            //System.out.println(data+", the size is "+data.size());
             tableView.setItems(data);
 
 
+
+
             statement.close();
-            //connectQuery.close();
+            connectDB.close();
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -143,6 +143,9 @@ public String buildQueryString(){
         String query = "";
         String constraint = buildConstraint();
         System.out.println(constraint);
+        if (queryList.size() == 0){
+            query = "* FROM Persons "+constraint;
+        }
         if (queryList.size() == 1) {
             query = queryList.get(0)+" FROM Persons "+constraint;
         }
@@ -202,6 +205,13 @@ public String buildQueryString(){
         }
         return constraint;
     }
+    //Clear method to erase entry info and columns from file
+    @FXML
+    public void clearData(ActionEvent e){
+        tableView.getColumns().clear();
+        cityTextField.clear();
+        zipTextField.clear();
+    }
 //Methods for getting text values for zip codes and cities from FXMl
 
     @FXML
@@ -252,7 +262,7 @@ public String buildQueryString(){
     }
     @FXML
     public void getCellPhone(ActionEvent e){
-        cbBuildQuery(CELL_PHONE, "CELLPHONE");
+        cbBuildQuery(CELL_PHONE, "CELL_PHONE");
     }
     @FXML
     public void getHomePhone(ActionEvent e){
