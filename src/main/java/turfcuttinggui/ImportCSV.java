@@ -1,12 +1,11 @@
 package turfcuttinggui;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import com.opencsv.*;
 
 import static java.lang.Integer.parseInt;
@@ -44,6 +43,7 @@ public class ImportCSV {
                 aryCSVIDs.add(id);
 
             }
+            Collections.sort(aryCSVIDs);
         }
         catch (Exception e)
         {
@@ -61,20 +61,21 @@ public class ImportCSV {
                 ResultSet resultSet = statement.executeQuery(connectQuery);
 
                 while(resultSet.next()) {
-                    ArrayList<String> rowData = new ArrayList;
+                    String[] rowData = new String[17];
                     for(int i=1 ; i<= resultSet.getMetaData().getColumnCount(); i++){
                         //Iterate Column
-                        rowData.add(resultSet.getString(i));
+                        rowData[i] = resultSet.getString(i);
                     }
+                    int id = parseInt(rowData[0]);
                     buildRecord = new Record(id,rowData[1],rowData[2],rowData[3],rowData[4],rowData[5],rowData[6],rowData[7],
-                            rowData[8],rowData[9],rowData[10],rowData[11],rowData[12],rowData[13],rowData[14],rowData[15],rowData[16])
-                    if (row == null) {
-                        System.out.println("row was null");
-                    } else {
-                        System.out.println("Row [1] added " + row);
+                            rowData[8],rowData[9],rowData[10],rowData[11],rowData[12],rowData[13],rowData[14],rowData[15],rowData[16]);
 
-                    }
+                   aryDatabaseIDs.add(id);
+                   aryDB_Records.add(buildRecord);
                 }
+                resultSet.close();
+                connection.close();
+                Collections.sort(aryDatabaseIDs);
             } catch (SQLException e){
                 e.printStackTrace();
             }
@@ -83,8 +84,12 @@ public class ImportCSV {
             generateDB();
         }
     }
-    public void writeToDB(){
-
+    public void InsertDB(Record record){
+        String sqlQuery = "INSERT INTO Persons VALUES ("+record.getID()+","+record.getFULL_NAME()+","+record.getADDRESS()
+                +","+record.getCITY()+","+record.getZIP_CODE()+","+record.getCELL_PHONE()+","+record.getHOME_PHONE()+","+
+                record.getEMAIL()+","+record.getWORK_EMAIL()+","+record.getHIRE_DATE()+","+record.getDEPT_NAME()+","+
+                record.getLOCATION_DESCRIPTION()+","+record.getJOB_DESCRIPTION()+","+record.getAnniversary_date()+","+
+                record.getSenior_Date()+")";
     }
     public boolean checkForDB(){
         String dbName = "TurfCuttingDB";
@@ -141,10 +146,20 @@ public class ImportCSV {
             String sql = "CREATE DATABASE TurfCuttingDB";
             stmt.executeUpdate(sql);
             System.out.println("Database created successfully...");
+            sql = "create table Persons ( ID int NOT NULL, FULL_NAME varchar(255) NOT NULL, ADDRESS varchar(255) NOT NULL, " +
+                    "CITY varchar(255) NOT NULL, STATE varchar(255) NOT NULL, ZIP_CODE varchar(255) NOT NULL, " +
+                    "CELL_PHONE varchar(50), HOME_PHONE varchar(50), EMAIL varchar(255), WORK_EMAIL varchar(255), " +
+                    "HIRE_DATE varchar(255), DATE varchar(255), DEPT_NAME varchar(255), LOCATION_DESCRIPTION varchar(255), " +
+                    "JOB_DESCRIPTION varchar(255), ANNIVERSARY_DATE varchar(255), " +
+                    "SENIOR_DATE VARCHAR(255), primary key(ID))";
+            stmt.executeUpdate(sql);
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+    public void compareArrays(){
 
+    }
 
 }

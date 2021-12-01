@@ -40,7 +40,6 @@ public class Record {
         this.EMAIL = EMAIL;
         this.WORK_EMAIL = WORK_EMAIL;
         this.HIRE_DATE = HIRE_DATE;
-        this.ANNIVERSARY_DATE = ANNIVERSARY_DATE;
         this.DEPT_NAME = DEPT_NAME;
         this.LOCATION_DESCRIPTION = LOCATION_DESCRIPTION;
         this.JOB_DESCRIPTION = JOB_DESCRIPTION;
@@ -54,10 +53,6 @@ public class Record {
 
     public String getADDRESS() {
         return ADDRESS;
-    }
-
-    public String getANNIVERSARY_DATE() {
-        return ANNIVERSARY_DATE;
     }
 
     public String getCELL_PHONE() {
