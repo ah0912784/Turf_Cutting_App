@@ -24,14 +24,11 @@ public class Controller {
     private int counter = 0;
     //queryList is to get appropriate field names for mySql query
     private ArrayList<String> queryList = new ArrayList<String>();
-    //get user input for the WHERE clause in sql method, used in buildConstraint
-    private String usrZip;
-    private String usrCity;
     //used in building rows for dynamic tableview display
     public ObservableList<ObservableList> data = FXCollections.observableArrayList();
     //Data export variables will be used to save mySql query when submit button is clicked
     //and then used in export data methods.
-    private String mySqlQuery;
+    public String mySqlString;
 
     //TableView where output columns are displayed
     @FXML
@@ -78,18 +75,19 @@ public class Controller {
 
     @FXML
     protected void onSubmitButtonClick() {
+
+        //connector class information
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
         String connectQuery = "SELECT "+buildQueryString();
+        setMySqlString(connectQuery);
         System.out.println(connectQuery);
-        mySqlQuery = connectQuery;
+        System.out.println(getMySqlString()+" in controller");
         try{
             Statement statement = connectDB.createStatement();
             ResultSet queryOutput = statement.executeQuery(connectQuery);
             //get data to ExportCSV class
-            ExportCSV exportCSV = new ExportCSV();
-            exportCSV.rs = queryOutput;
-            exportCSV.statementExp = statement;
+
             System.out.println(queryOutput);
 
             for (int i = 0; i < queryOutput.getMetaData().getColumnCount();i++) {
@@ -131,6 +129,7 @@ public class Controller {
 
             statement.close();
             connectDB.close();
+            connectQuery = "";
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -187,13 +186,12 @@ public String buildQueryString(){
             }
         }
 }
-    //the boolean is to decide which is zip and which is city name
-
 
     //Will be used for putting WHERE constraints
     public String buildConstraint(){
         String constraint = ";";
-
+        String usrCity = getCityInput();
+        String usrZip = getZipInput();
         if (usrCity != null && usrZip != null) {
             constraint = "WHERE CITY = " + usrCity + " AND ZIP_CODE = " + usrZip + ";";
         }
@@ -215,30 +213,39 @@ public String buildQueryString(){
 //Methods for getting text values for zip codes and cities from FXMl
 
     @FXML
-    public void getZipInput(){
+    public String getZipInput(){
         //Zip code is true for getCondition Method
+        String usrZip = "";
         if (zipTextField.getText().isEmpty()) {
            usrZip = null;
         } else{
             usrZip = zipTextField.getText();
         }
-
+    return usrZip;
     }
     @FXML
-    public void getCityInput(){
+    public String getCityInput(){
+        String usrCity = "";
         //city is false
         if (cityTextField.getText().isEmpty()){
             usrCity = null;
         } else{
             usrCity = cityTextField.getText();
         }
+        return usrCity;
+    }
 
+    public void setMySqlString(String mySqlString){
+        this.mySqlString = mySqlString;
+    }
+    public String getMySqlString(){
+        return mySqlString;
     }
     //exportBtn method
     @FXML
     public void exportData(ActionEvent e){
         ExportCSV exportCSV = new ExportCSV();
-        exportCSV.export("Persons");
+        exportCSV.export("Persons",getMySqlString());
     }
 
 //Methods for getting check box values
@@ -308,5 +315,8 @@ public String buildQueryString(){
     public void getJobTitle(){
         cbBuildQuery(JOB_DESCRIPTION,"JOB_DESCRIPTION");
     }
+    @FXML
+    public void getResult() {
 
+    }
 }//end of class
