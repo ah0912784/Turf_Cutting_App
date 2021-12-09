@@ -12,14 +12,15 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("turfcutting_gui.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 900, 550);
+        Scene scene = new Scene(fxmlLoader.load(), 900, 586);
         stage.setTitle("Turf Cutter");
         stage.setScene(scene);
         stage.show();
     }
 
     public static void main(String[] args) {
-
+    ImportCSV importcsv = new ImportCSV();
+    importcsv.masterCall();
     launch();
     }
 }
