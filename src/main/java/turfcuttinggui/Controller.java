@@ -1,11 +1,8 @@
 package turfcuttinggui;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -14,6 +11,7 @@ import javafx.util.Callback;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
 
@@ -72,7 +70,12 @@ public class Controller {
     private CheckBox SENIOR_DATE;
     @FXML
     private CheckBox JOB_DESCRIPTION;
-
+    @FXML
+    private CheckBox RESULTS;
+    @FXML
+    private Button delete_buton;
+    @FXML
+    private TextField id_texfield;
     @FXML
     protected void onSubmitButtonClick() {
 
@@ -123,8 +126,6 @@ public class Controller {
         }
             //System.out.println(data+", the size is "+data.size());
             tableView.setItems(data);
-
-
 
 
             statement.close();
@@ -203,6 +204,23 @@ public String buildQueryString(){
         }
         return constraint;
     }
+    public void quickQuery(String query){
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+
+        try {
+            Statement statement = connectDB.createStatement();
+            statement.executeQuery(query);
+            statement.close();
+            System.out.println("your query was successful");
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    public String getInput_ID(){
+        String id = id_texfield.getText();
+        return id;
+    }
     //Clear method to erase entry info and columns from file
     @FXML
     public void clearData(ActionEvent e){
@@ -260,6 +278,17 @@ public String buildQueryString(){
         cbBuildQuery(FULL_NAME,"FULL_NAME");
     }
     @FXML
+    public void deleteRecords(){
+     String id = getInput_ID();
+     String query = "DELETE FROM Persons WHERE ID = "+id;
+     if(id != null){
+        quickQuery(query);
+     }
+    }
+
+
+
+    @FXML
     public void getZip(ActionEvent e){
         cbBuildQuery(ZIP_CODE,"ZIP_CODE");
     }
@@ -312,11 +341,12 @@ public String buildQueryString(){
         cbBuildQuery(STATE,"STATE");
     }
     @FXML
-    public void getJobTitle(){
+    public void getJobTitle(ActionEvent e){
         cbBuildQuery(JOB_DESCRIPTION,"JOB_DESCRIPTION");
     }
     @FXML
-    public void getResult() {
+    public void getResults(ActionEvent e) { cbBuildQuery(RESULTS, "RESULTS"); }
 
-    }
+
+
 }//end of class
