@@ -1,34 +1,48 @@
 package turfcuttinggui;
 
-
-//Column Names
-// FULL_NAME	    ADDRESS	                 CITY STATE	 ZIP_CODE	        HOME_PHONE	CELL_PHONE
-// EMAIL            WORK_EMAIL	             HIRE_DATE	 ANNIVERSARY_DATE	DEPT_NAME	LOCATION_DESCRIPTION
-// JOB_DESCRIPTION  Anniversary_date	     Senior_Date
+/* RECORD POSITIONS / COLUMN NAMES
+[0]  = ID
+[1]  = FULL_NAME
+[2]  = ADDRESS
+[3]  = CITY
+[4]  = STATE
+[5]  = ZIP_CODE
+[6]  = HOME_PHONE
+[7]  = CELL_PHONE
+[8]  = EMAIL
+[9]  = WORK_EMAIL
+[10] = ADJ_HIRE_DATE
+[11] = ANNIVERSARY_DATE
+[12] = SENIOR_DATE
+[13] = DEPT_NAME
+[14] = LOCATION_DESCRIPTION
+[15] = POSITION_DESCRIPTION
+[16] = RESULTS
+ */
 public class Record {
-    private int ID;
-    private String FULL_NAME;
-    private String ADDRESS;
-    private String CITY;
-    private String STATE;
-    private String ZIP_CODE;
-    private String HOME_PHONE;
-    private String CELL_PHONE;
-    private String EMAIL;
-    private String WORK_EMAIL;
-    private String HIRE_DATE;
-    private String ANNIVERSARY_DATE;
+    private int ID;//0
+    private String FULL_NAME;//1
+    private String ADDRESS;//2
+    private String CITY;//3
+    private String STATE;//4
+    private String ZIP_CODE;//5
+    private String HOME_PHONE;//6
+    private String CELL_PHONE;//7
+    private String EMAIL;//8
+    private String WORK_EMAIL;//9
+    private String HIRE_DATE;//10
+    private String ANNIVERSARY_DATE;//11
     private String DEPT_NAME;
     private String LOCATION_DESCRIPTION;
     private String JOB_DESCRIPTION;
-    private String Anniversary_date;
     private String Senior_Date;
+    private String RESULT;
 
 
     public Record(int ID, String FULL_NAME, String ADDRESS, String CITY, String STATE, String ZIP_CODE, String HOME_PHONE,
                   String CELL_PHONE, String EMAIL, String WORK_EMAIL, String HIRE_DATE, String ANNIVERSARY_DATE,
                   String DEPT_NAME, String LOCATION_DESCRIPTION, String JOB_DESCRIPTION,
-                  String anniversary_date, String senior_Date) {
+                  String senior_Date, String RESULT) {
         this.ID = ID;
         this.FULL_NAME = FULL_NAME;
         this.ADDRESS = ADDRESS;
@@ -40,11 +54,12 @@ public class Record {
         this.EMAIL = EMAIL;
         this.WORK_EMAIL = WORK_EMAIL;
         this.HIRE_DATE = HIRE_DATE;
+        this.ANNIVERSARY_DATE = ANNIVERSARY_DATE;
         this.DEPT_NAME = DEPT_NAME;
         this.LOCATION_DESCRIPTION = LOCATION_DESCRIPTION;
         this.JOB_DESCRIPTION = JOB_DESCRIPTION;
-        this.Anniversary_date = anniversary_date;
         this.Senior_Date = senior_Date;
+        this.RESULT = RESULT;
     }
 
     public int getID() {
@@ -91,6 +106,8 @@ public class Record {
         return HIRE_DATE;
     }
 
+    public String getANNIVERSARY_DATE(){ return ANNIVERSARY_DATE;}
+
     public String getDEPT_NAME() {
         return DEPT_NAME;
     }
@@ -103,13 +120,10 @@ public class Record {
         return JOB_DESCRIPTION;
     }
 
-    public String getAnniversary_date() {
-        return Anniversary_date;
-    }
-
     public String getSenior_Date() {
         return Senior_Date;
     }
+    public String getRESULT(){return RESULT;}
 
     public void setID(int ID) {
         this.ID = ID;
@@ -169,10 +183,6 @@ public class Record {
 
     public void setJOB_DESCRIPTION(String JOB_DESCRIPTION) {
         this.JOB_DESCRIPTION = JOB_DESCRIPTION;
-    }
-
-    public void setAnniversary_date(String anniversary_date) {
-        Anniversary_date = anniversary_date;
     }
 
     public void setSenior_Date(String senior_Date) {
