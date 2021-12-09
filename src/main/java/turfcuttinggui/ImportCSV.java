@@ -13,26 +13,61 @@ import static java.lang.Integer.parseInt;
 //handle the manipulation of data from java query and the export of java query to csv
 // file path for importing data
 //  C:\Users\%USERPROFILE%\OneDrive\Documents\TurfCuttingDB\turfCuttingCSV
+
+/* RECORD POSITIONS
+[0]  = ID
+[1]  = FULL_NAME
+[2]  = ADDRESS
+[3]  = CITY
+[4]  = STATE
+[5]  = ZIP_CODE
+[6]  = HOME_PHONE
+[7]  = CELL_PHONE
+[8]  = EMAIL
+[9]  = WORK_EMAIL
+[10] = ADJ_HIRE_DATE
+[11] = ANNIVERSARY_DATE
+[12] = SENIOR_DATE
+[13] = DEPT_NAME
+[14] = LOCATION_DESCRIPTION
+[15] = POSITION_DESCRIPTION
+[16] = RESULTS
+
+ */
 public class ImportCSV {
     private Path filePath = Path.of("C:\\Users\\%USERPROFILE%\\OneDrive\\Documents\\TurfCuttingDB\\turfCuttingCSV");
     private ArrayList<Integer> aryCSVIDs      = new ArrayList();
     private ArrayList<Integer> aryDatabaseIDs = new ArrayList<>();
     private ArrayList<Record>  aryCSV_Records = new ArrayList<>();
     private ArrayList<Record> aryDB_Records   = new ArrayList<>();
-
+    private String[] aryColumnNames = {"ID","FULL_NAME","ADDRESS","CITY","STATE","ZIP_CODE","HOME_PHONE","CELL_PHONE",
+            "EMAIL","WORK_EMAIL", "ADJ_HIRE_DATE","ANNIVERSARY_DATE","SENIOR_DATE","DEPT_NAME","LOCATION_DESCRIPTION",
+            "POSITION_DESCRIPTION","RESULTS",};
 
     //build csv import
     //will be called in main function to execute all of these tasks
-    private void masterCall(){
+    public void masterCall(){
         readCSV();
         readDataBase();
+        manageDB(aryDB_Records,aryCSV_Records);
     }
-    private void readCSV(){
+    public String createColumnString(int start, int end){
+        String columnString = "";
+        for (int i = start; i < end; i++)
+            if (i < end-1) {
+                columnString += aryColumnNames[i] + ",";
+            } else {
+                columnString += aryColumnNames[i];
+            }
+        return columnString;
+    }
+
+    public void readCSV(){
+        String fileName = "C:\\Users\\rocke\\OneDrive\\Documents\\TurfCuttingDB\\turfcuttingcsv.csv";
         Record buildRecord;
-        try (CSVReader reader = new CSVReader(new FileReader("turfCuttingCSV.csv")))
+        try (CSVReader reader = new CSVReader(new FileReader(fileName)))
         {
             reader.skip(1);
-
 
             while((reader.readNext()) != null) {
                 String[] rowData = reader.readNext();
@@ -84,12 +119,14 @@ public class ImportCSV {
             generateDB();
         }
     }
-    public void InsertDB(Record record){
-        String sqlQuery = "INSERT INTO Persons VALUES ("+record.getID()+","+record.getFULL_NAME()+","+record.getADDRESS()
+    public void insertDB(Record record){
+        String sqlQuery = "INSERT INTO Persons ("+ createColumnString(0,aryColumnNames.length-1)+") "+
+                "VALUES ("+record.getID()+","+record.getFULL_NAME()+","+record.getADDRESS()
                 +","+record.getCITY()+","+record.getZIP_CODE()+","+record.getCELL_PHONE()+","+record.getHOME_PHONE()+","+
                 record.getEMAIL()+","+record.getWORK_EMAIL()+","+record.getHIRE_DATE()+","+record.getDEPT_NAME()+","+
-                record.getLOCATION_DESCRIPTION()+","+record.getJOB_DESCRIPTION()+","+record.getAnniversary_date()+","+
-                record.getSenior_Date()+")";
+                record.getLOCATION_DESCRIPTION()+","+record.getJOB_DESCRIPTION()+","+record.getANNIVERSARY_DATE()+","+
+                record.getSenior_Date()+","+record.getRESULT()+")";
+        quickQuery(sqlQuery);
     }
     public boolean checkForDB(){
         String dbName = "TurfCuttingDB";
@@ -151,15 +188,81 @@ public class ImportCSV {
                     "CELL_PHONE varchar(50), HOME_PHONE varchar(50), EMAIL varchar(255), WORK_EMAIL varchar(255), " +
                     "HIRE_DATE varchar(255), DATE varchar(255), DEPT_NAME varchar(255), LOCATION_DESCRIPTION varchar(255), " +
                     "JOB_DESCRIPTION varchar(255), ANNIVERSARY_DATE varchar(255), " +
-                    "SENIOR_DATE VARCHAR(255), primary key(ID))";
+                    "SENIOR_DATE VARCHAR(255), RESULTS varchar(255), primary key(ID))";
             stmt.executeUpdate(sql);
-            conn.close();
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    public void compareArrays(){
+    public void manageDB(ArrayList<Record> dbRecords, ArrayList<Record> csvRecord){
 
+        for (int i = 0; i < dbRecords.size(); i++){
+
+            for (int ii = 0; i < csvRecord.size(); ii++ ){
+                if (dbRecords.get(i).getID() == csvRecord.get(ii).getID()){
+                    updateDB(csvRecord.get(ii));
+                    csvRecord.remove(ii);
+                }
+            }
+        }
+        for (int i = 0; i < csvRecord.size();i++){
+            insertDB(csvRecord.get(i));
+        }
+    }
+    public Record getRecord(int ID, ArrayList<Record> recordList){
+        int size = recordList.size();
+        int counter = 0;
+        Record record;
+        while (counter < size){
+            int recordID = recordList.get(counter).getID();
+
+            if(ID == recordID){
+
+                break;
+            } else {
+                counter++;
+            }
+        }
+        record = recordList.get(counter);
+
+        return record;
+    }
+    public void updateDB(Record record){
+        String updateQuery = "UPDATE Persons " +
+                "SET "+
+                "FULL_NAME = "+record.getFULL_NAME() +","+
+                "ADDRESS = " +record.getADDRESS()+","+
+                "CITY = " +record.getCITY()+","+
+                "STATE = " +record.getSTATE()+","+
+                "ZIP_CODE = " +record.getZIP_CODE()+","+
+                "HOME_PHONE = " +record.getHOME_PHONE()+","+
+                "CELL_PHONE = "+record.getCELL_PHONE() +","+
+                "EMAIL = " +record.getEMAIL()+","+
+                "WORK_EMAIL = "+record.getWORK_EMAIL() +","+
+                "ADJ_HIRE_DATE = " +record.getHIRE_DATE()+","+
+                "ANNIVERSARY_DATE = " +record.getANNIVERSARY_DATE()+","+
+                "SENIOR_DATE = " +record.getSenior_Date()+","+
+                "DEPT_NAME = " +record.getDEPT_NAME()+","+
+                "LOCATION_DESCRIPTION = "+record.getLOCATION_DESCRIPTION() +","+
+                "POSITION_DESCRIPTION = "+record.getJOB_DESCRIPTION() +","+
+                "RESULTS = "+record.getRESULT()+
+                "WHERE ID = " +record.getID();
+
+        quickQuery(updateQuery);
+
+    }
+    public void quickQuery(String query){
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+
+        try {
+            Statement statement = connectDB.createStatement();
+            statement.executeQuery(query);
+            statement.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
 }
