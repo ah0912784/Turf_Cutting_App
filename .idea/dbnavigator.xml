@@ -26,7 +26,8 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="7a4ba5c6-7393-4c6d-8c7e-0c375d0401d3">
-        <schema name="turfcuttingdb" object-types="table, view" />
+        <schema name="sys" object-types="table, view, procedure, function" />
+        <schema name="turfcuttingdb" object-types="table, view, procedure, function" />
       </connection>
     </loaded-nodes>
   </component>
@@ -34,7 +35,7 @@
     <connection id="7a4ba5c6-7393-4c6d-8c7e-0c375d0401d3">
       <console name="TurfCuttingDB" type="STANDARD" schema="turfcuttingdb" session="Main"><![CDATA[use TurfCuttingDB;
 
-select * from Persons]]></console>
+select * from Persons;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
