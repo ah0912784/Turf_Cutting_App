@@ -3,6 +3,7 @@ package turfcuttinggui;
 /* RECORD POSITIONS / COLUMN NAMES
 [0]  = ID
 [1]  = FULL_NAME
+[2]  = NEW_OR_OLD
 [2]  = ADDRESS
 [3]  = CITY
 [4]  = STATE
@@ -22,29 +23,31 @@ package turfcuttinggui;
 public class Record {
     private int ID;//0
     private String FULL_NAME;//1
-    private String ADDRESS;//2
-    private String CITY;//3
-    private String STATE;//4
-    private String ZIP_CODE;//5
-    private String HOME_PHONE;//6
-    private String CELL_PHONE;//7
-    private String EMAIL;//8
-    private String WORK_EMAIL;//9
-    private String HIRE_DATE;//10
-    private String ANNIVERSARY_DATE;//11
-    private String DEPT_NAME;
-    private String LOCATION_DESCRIPTION;
-    private String JOB_DESCRIPTION;
-    private String Senior_Date;
-    private String RESULT;
+    private String NEW_OR_OLD;//2
+    private String ADDRESS;//3
+    private String CITY;//4
+    private String STATE;//5
+    private String ZIP_CODE;//6
+    private String HOME_PHONE;//7
+    private String CELL_PHONE;//8
+    private String EMAIL;//9
+    private String WORK_EMAIL;//10
+    private String HIRE_DATE;//11
+    private String ANNIVERSARY_DATE;//12
+    private String DEPT_NAME;//13
+    private String LOCATION_DESCRIPTION;//14
+    private String JOB_DESCRIPTION;//15
+    private String Senior_Date;//16
+    private String RESULT;//17
 
 
-    public Record(int ID, String FULL_NAME, String ADDRESS, String CITY, String STATE, String ZIP_CODE, String HOME_PHONE,
+    public Record(int ID, String FULL_NAME, String NEW_OR_OLD, String ADDRESS, String CITY, String STATE, String ZIP_CODE, String HOME_PHONE,
                   String CELL_PHONE, String EMAIL, String WORK_EMAIL, String HIRE_DATE, String ANNIVERSARY_DATE,
                   String DEPT_NAME, String LOCATION_DESCRIPTION, String JOB_DESCRIPTION,
                   String senior_Date, String RESULT) {
         this.ID = ID;
         this.FULL_NAME = FULL_NAME;
+        this.NEW_OR_OLD = NEW_OR_OLD;
         this.ADDRESS = ADDRESS;
         this.CITY = CITY;
         this.STATE = STATE;
@@ -124,6 +127,7 @@ public class Record {
         return Senior_Date;
     }
     public String getRESULT(){return RESULT;}
+    public String getNEW_OR_OLD(){return NEW_OR_OLD;}
 
     public void setID(int ID) {
         this.ID = ID;
