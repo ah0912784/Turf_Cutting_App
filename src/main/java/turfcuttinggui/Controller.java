@@ -77,18 +77,17 @@ public class Controller {
     @FXML
     private TextField id_texfield;
     @FXML
+    private CheckBox NEW_OR_OLD;
+    @FXML
     protected void onSubmitButtonClick() {
 
         //connector class information
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
         String connectQuery = "SELECT "+buildQueryString();
         setMySqlString(connectQuery);
-        System.out.println(connectQuery);
-        System.out.println(getMySqlString()+" in controller");
+        DatabaseConnection mySql = new DatabaseConnection();
         try{
-            Statement statement = connectDB.createStatement();
-            ResultSet queryOutput = statement.executeQuery(connectQuery);
+
+            ResultSet queryOutput = mySql.getResultSet(connectQuery);
             //get data to ExportCSV class
 
             System.out.println(queryOutput);
@@ -121,16 +120,12 @@ public class Controller {
                     System.out.println("Row [1] added " + row);
                     data.addAll(row);
                 }
-
-
         }
             //System.out.println(data+", the size is "+data.size());
             tableView.setItems(data);
 
-
-            statement.close();
-            connectDB.close();
             connectQuery = "";
+            queryOutput.close();
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -138,7 +133,7 @@ public class Controller {
     }
 
 
-
+//builds the string for the mySql query
 public String buildQueryString(){
         String query = "";
         String constraint = buildConstraint();
@@ -172,7 +167,6 @@ public String buildQueryString(){
     //Used for putting Selected Columns together
     @FXML
     public void cbBuildQuery(CheckBox id, String fieldName){
-
         if(id.isSelected()){
             queryList.add(fieldName);
         }else{
@@ -204,19 +198,7 @@ public String buildQueryString(){
         }
         return constraint;
     }
-    public void quickQuery(String query){
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
 
-        try {
-            Statement statement = connectDB.createStatement();
-            statement.executeQuery(query);
-            statement.close();
-            System.out.println("your query was successful");
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
     public String getInput_ID(){
         String id = id_texfield.getText();
         return id;
@@ -227,6 +209,7 @@ public String buildQueryString(){
         tableView.getColumns().clear();
         cityTextField.clear();
         zipTextField.clear();
+        id_texfield.clear();
     }
 //Methods for getting text values for zip codes and cities from FXMl
 
@@ -279,10 +262,11 @@ public String buildQueryString(){
     }
     @FXML
     public void deleteRecords(){
-     String id = getInput_ID();
-     String query = "DELETE FROM Persons WHERE ID = "+id;
-     if(id != null){
-        quickQuery(query);
+        String id = getInput_ID();
+        String query = "DELETE FROM Persons WHERE ID = "+id;
+        DatabaseConnection mySql = new DatabaseConnection();
+        if(id != null){
+            mySql.quickQuery(query);
      }
     }
 
@@ -318,7 +302,7 @@ public String buildQueryString(){
     }
     @FXML
     public void getHireDate(ActionEvent e){
-        cbBuildQuery(HIRE_DATE, "HIRE_DATE");
+        cbBuildQuery(HIRE_DATE, "ADJ_HIRE_DATE");
     }
     @FXML
     public void getDepartmentName(ActionEvent e){
@@ -346,6 +330,8 @@ public String buildQueryString(){
     }
     @FXML
     public void getResults(ActionEvent e) { cbBuildQuery(RESULTS, "RESULTS"); }
+    @FXML
+    public void getNewOrOld(ActionEvent e){cbBuildQuery(NEW_OR_OLD, "NEW_OR_OLD");}
 
 
 
