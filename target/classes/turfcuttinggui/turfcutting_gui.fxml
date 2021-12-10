@@ -3,14 +3,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="turfcuttinggui.Controller">
+<AnchorPane prefHeight="586.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="turfcuttinggui.Controller">
         <TextField fx:id="zipTextField" layoutX="570.0" layoutY="72.0" prefHeight="25.0" prefWidth="211.0" promptText="Zip Code" />
         <TextField fx:id="cityTextField" layoutX="570.0" layoutY="32.0" prefHeight="25.0" prefWidth="211.0" promptText="City" />
         <Button id="submit_b" layoutX="793.0" layoutY="32.0" mnemonicParsing="false" onAction="#onSubmitButtonClick" prefHeight="25.0" prefWidth="89.0" text="Submit" textAlignment="CENTER" />
-        <Button id="clear_b" layoutX="793.0" layoutY="72.0" mnemonicParsing="false" prefHeight="25.0" onAction="#clearData" prefWidth="90.0" text="Clear" textFill="#141414" />
-        <Button layoutX="786.0" layoutY="511.0" mnemonicParsing="false" prefHeight="25.0" onAction="#exportData" prefWidth="97.0" text="Export to CSV" />
+        <Button id="clear_b" layoutX="793.0" layoutY="72.0" mnemonicParsing="false" onAction="#clearData" prefHeight="25.0" prefWidth="90.0" text="Clear" textFill="#141414" />
+        <Button layoutX="789.0" layoutY="547.0" mnemonicParsing="false" onAction="#exportData" prefHeight="25.0" prefWidth="97.0" text="Export to CSV" />
    <TableView fx:id="tableView" layoutX="14.0" layoutY="32.0" prefHeight="505.0" prefWidth="535.0" />
-   <TitledPane animated="false" layoutX="570.0" layoutY="109.0" prefHeight="395.0" prefWidth="310.0" text="Select Information to be presented.">
+   <TitledPane animated="false" layoutX="570.0" layoutY="142.0" prefHeight="395.0" prefWidth="310.0" text="Select Information to be presented.">
      <content>
        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
             <children>
@@ -47,6 +47,7 @@
                       <CheckBox fx:id="WORK_EMAIL" mnemonicParsing="false" onAction="#getWorkEmail" prefHeight="25.0" prefWidth="96.0" text="Work Email" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                       <CheckBox fx:id="DEPT_NAME" mnemonicParsing="false" onAction="#getDepartmentName" text="Department Info" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                       <CheckBox fx:id="LOCATION_DESCRIPTION" mnemonicParsing="false" onAction="#getLocationDescription" prefHeight="58.0" prefWidth="101.0" text="Location Description" textOverrun="CENTER_WORD_ELLIPSIS" wrapText="true" GridPane.rowIndex="5" />
+                     <CheckBox fx:id="RESULTS" mnemonicParsing="false" onAction="#getResults" text="Results" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   </children>
                </GridPane>
 
@@ -54,4 +55,6 @@
          </AnchorPane>
      </content>
    </TitledPane>
+   <TextField fx:id="id_textfield" layoutX="570.0" layoutY="106.0" prefHeight="25.0" prefWidth="211.0" promptText="ID Used for Delete Button" />
+   <Button fx:id="delete_button" layoutX="14.0" layoutY="547.0" mnemonicParsing="false" onAction="#deleteRecords" prefHeight="25.0" prefWidth="111.0" text="Delete Record" />
 </AnchorPane>
