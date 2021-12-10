@@ -1,7 +1,6 @@
 package turfcuttinggui;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.*;
 
 
 public class DatabaseConnection {
@@ -23,7 +22,32 @@ public class DatabaseConnection {
         }
         return databaseLink;
     }
+    public ResultSet getResultSet(String query){
+        ResultSet resultSet = null;
+        try {
+            DatabaseConnection dbConnect = new DatabaseConnection();
+            Connection connection = dbConnect.getConnection();
+            String connectQuery = query;
+            Statement statement = connection.createStatement();
+            resultSet = statement.executeQuery(connectQuery);
 
+        } catch (SQLException e){
+            e.printStackTrace();
+            System.out.println("Coming from getResultSet Method");
+        }
+        return resultSet;
+    }
+    public void quickQuery(String query){
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
 
+        try {
+            Statement statement = connectDB.createStatement();
+            statement.executeUpdate(query);
+            statement.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 
 }
