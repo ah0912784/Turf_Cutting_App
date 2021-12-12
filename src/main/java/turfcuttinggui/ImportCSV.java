@@ -132,7 +132,7 @@ public class ImportCSV {
         System.out.println(csvRecord.size()+" csvRecord size");
         for (int i = 0; i < dbRecords.size()-1; i++){
             for (int ii = 0; ii < csvRecord.size()-1; ii++ ){
-                System.out.println(ii+" times in inner loop");
+                //System.out.println(ii+" times in inner loop");
                 //System.out.println(csvRecord.get(ii).getID());
                 if (dbRecords.get(i).getID() == csvRecord.get(ii).getID()){
                     System.out.println(ii);
@@ -162,11 +162,12 @@ public class ImportCSV {
         }
         for (int i = 1; i < newColumnName.size(); i++){
            if (newColumnName.size()-1 == i) {
-               updateQuery += newColumnName.get(i) + " =  '" + newColumnName.get(i) + "' WHERE ID = "+record.getID();
+               updateQuery += newColumnName.get(i) + " =  '" + newRecordList.get(i) + "' WHERE ID = "+record.getID();
            } else {
-               updateQuery += newColumnName.get(i) + " =  '" + newColumnName.get(i) + "',";
+               updateQuery += newColumnName.get(i) + " =  '" + newRecordList.get(i) + "',";
            }
         }
+        System.out.println(updateQuery+"This is the update Query");
         mySql.DMLQuery(updateQuery,"Record Updated");
     }
 
@@ -184,6 +185,7 @@ public class ImportCSV {
         String query = "'"+recordArray[start]+"',";
 
         for (int i = start+1; i < fin; i++){
+            System.out.println(recordArray[i]+" This is the prepareQueryData Mthod");
             if (recordArray[i].isEmpty() == true){
                 recordArray[i] = "NULL";
             }
