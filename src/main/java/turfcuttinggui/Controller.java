@@ -4,24 +4,21 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.event.ActionEvent;
 import javafx.util.Callback;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
 
 
 //Create events to control button inputs
 public class Controller {
+    public TextField id_textfield;
     //test variable for counting loops
-    private int counter = 0;
     //queryList is to get appropriate field names for mySql query
-    private ArrayList<String> queryList = new ArrayList<String>();
+    private final ArrayList<String> queryList = new ArrayList<String>();
     //used in building rows for dynamic tableview display
     public ObservableList<ObservableList> data = FXCollections.observableArrayList();
     //Data export variables will be used to save mySql query when submit button is clicked
@@ -73,9 +70,8 @@ public class Controller {
     @FXML
     private CheckBox RESULTS;
     @FXML
-    private Button delete_buton;
-    @FXML
-    private TextField id_texfield;
+    private Button delete_button;
+
     @FXML
     private CheckBox NEW_OR_OLD;
     @FXML
@@ -158,10 +154,6 @@ public String buildQueryString(){
         return query;
 }//end of buildQueryString
 
-    @FXML
-    public void setText(){
-
-    }
     //Methods for building queries
 
     //Used for putting Selected Columns together
@@ -200,7 +192,7 @@ public String buildQueryString(){
     }
 
     public String getInput_ID(){
-        String id = id_texfield.getText();
+        String id = id_textfield.getText();
         return id;
     }
     //Clear method to erase entry info and columns from file
@@ -209,7 +201,7 @@ public String buildQueryString(){
         tableView.getColumns().clear();
         cityTextField.clear();
         zipTextField.clear();
-        id_texfield.clear();
+        id_textfield.clear();
     }
 //Methods for getting text values for zip codes and cities from FXMl
 
@@ -266,7 +258,7 @@ public String buildQueryString(){
         String query = "DELETE FROM Persons WHERE ID = "+id;
         DatabaseConnection mySql = new DatabaseConnection();
         if(id != null){
-            mySql.quickQuery(query);
+            mySql.DMLQuery(query, "Record Deleted");
      }
     }
 
@@ -326,7 +318,7 @@ public String buildQueryString(){
     }
     @FXML
     public void getJobTitle(ActionEvent e){
-        cbBuildQuery(JOB_DESCRIPTION,"JOB_DESCRIPTION");
+        cbBuildQuery(JOB_DESCRIPTION,"POSITION_DESCRIPTION");
     }
     @FXML
     public void getResults(ActionEvent e) { cbBuildQuery(RESULTS, "RESULTS"); }

@@ -48,6 +48,7 @@
                       <CheckBox fx:id="DEPT_NAME" mnemonicParsing="false" onAction="#getDepartmentName" text="Department Info" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                       <CheckBox fx:id="LOCATION_DESCRIPTION" mnemonicParsing="false" onAction="#getLocationDescription" prefHeight="58.0" prefWidth="101.0" text="Location Description" textOverrun="CENTER_WORD_ELLIPSIS" wrapText="true" GridPane.rowIndex="5" />
                      <CheckBox fx:id="RESULTS" mnemonicParsing="false" onAction="#getResults" text="Results" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                     <CheckBox fx:id="NEW_OR_OLD" mnemonicParsing="false" onAction="#getNewOrOld" text="New or Old" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                   </children>
                </GridPane>
 

@@ -23,7 +23,7 @@ package turfcuttinggui;
 public class Record {
     private int ID;//0
     private String FULL_NAME;//1
-    private String NEW_OR_OLD;//2
+    private final String NEW_OR_OLD;//2
     private String ADDRESS;//3
     private String CITY;//4
     private String STATE;//5
@@ -38,7 +38,7 @@ public class Record {
     private String LOCATION_DESCRIPTION;//14
     private String JOB_DESCRIPTION;//15
     private String Senior_Date;//16
-    private String RESULT;//17
+    private final String RESULT;//17
 
 
     public Record(int ID, String FULL_NAME, String NEW_OR_OLD, String ADDRESS, String CITY, String STATE, String ZIP_CODE, String HOME_PHONE,
@@ -128,6 +128,15 @@ public class Record {
     }
     public String getRESULT(){return RESULT;}
     public String getNEW_OR_OLD(){return NEW_OR_OLD;}
+
+    public String[] getStringArray(){
+        String id = String.valueOf(getID());
+        String[] aryRecord = {id,getFULL_NAME(),getNEW_OR_OLD(),getADDRESS(),getCITY(),getSTATE(),getZIP_CODE(),
+        getHOME_PHONE(),getCELL_PHONE(),getEMAIL(),getWORK_EMAIL(),getHIRE_DATE(),getANNIVERSARY_DATE(),getSenior_Date(),
+        getDEPT_NAME(),getLOCATION_DESCRIPTION(),getJOB_DESCRIPTION(),getRESULT()};
+
+        return aryRecord;
+    }
 
     public void setID(int ID) {
         this.ID = ID;

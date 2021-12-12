@@ -17,10 +17,12 @@
           <root url="jar://$USER_HOME$/Downloads/opencsv-5.5.2.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.ideaLibSources/opencsv-5.5.2-sources.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="library" name="Maven: com.opencsv:opencsv:5.5.2" level="project" />
+    <orderEntry type="library" name="Maven: com.opencsv:opencsv:5.5" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.12.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-text:1.9" level="project" />
     <orderEntry type="library" name="Maven: commons-beanutils:commons-beanutils:1.9.4" level="project" />

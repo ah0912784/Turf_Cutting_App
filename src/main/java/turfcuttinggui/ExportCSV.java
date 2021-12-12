@@ -19,15 +19,10 @@ public class ExportCSV {
 
         String csvFileName = getFileName(table.concat("_Export"));
         try{
-
             DatabaseConnection connectNow = new DatabaseConnection();
-            Connection connectDB = connectNow.getConnection();
-
-            Statement statement = connectDB.createStatement();
             System.out.println(mySqlQuery);
 
-
-            ResultSet rs = statement.executeQuery(mySqlQuery);
+            ResultSet rs = connectNow.getResultSet(mySqlQuery);
             File actualFile = new File(file, csvFileName);
             fileWriter = new BufferedWriter(new FileWriter(actualFile));
 
@@ -58,6 +53,7 @@ public class ExportCSV {
             }
 
             //statementExp.close();
+            rs.close();
             fileWriter.close();
 
         } catch (SQLException e) {
