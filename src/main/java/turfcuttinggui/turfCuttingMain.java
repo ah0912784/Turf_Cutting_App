@@ -11,6 +11,7 @@ import java.sql.SQLException;
 
 //<Stage title="Turf Cutter" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="turfcuttinggui.Controller">
 public class turfCuttingMain extends Application {
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(turfCuttingMain.class.getResource("turfcutting_gui.fxml"));
@@ -19,12 +20,13 @@ public class turfCuttingMain extends Application {
         stage.setScene(scene);
         stage.show();
     }
-    public static void main(String[] args) throws SQLException {
-        ImportCSV importcsv = new ImportCSV();
-        new turfCuttingMain();
-        importcsv.masterCall();
-        turfCuttingMain.launch();
-    }
-
+//    public static void main(String[] args) throws SQLException {
+//        new turfCuttingMain();
+//        ImportCSV importcsv = new ImportCSV();
+//        turfCuttingMain.launch();
+//        new turfCuttingMain();
+//        importcsv.masterCall();
+//
+//    }
 
 }

@@ -86,17 +86,18 @@ public class Controller {
             ResultSet queryOutput = mySql.getResultSet(connectQuery);
             //get data to ExportCSV class
 
-            System.out.println(queryOutput);
+            System.out.println(queryOutput.getMetaData().getColumnCount());
 
             for (int i = 0; i < queryOutput.getMetaData().getColumnCount();i++) {
                 //build the dynamic table
-                final int j = i;
-
+                int j = i;
+                System.out.println(j+" this is j");
                 TableColumn col = new TableColumn(queryOutput.getMetaData().getColumnName(i + 1));
                 col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>)
                         param -> new SimpleStringProperty(param.getValue().get(j).toString()));
                 tableView.getColumns().addAll(col);
                 System.out.println("Column [" + i + "] ");
+
             }
 
 
@@ -180,13 +181,13 @@ public String buildQueryString(){
         String usrCity = getCityInput();
         String usrZip = getZipInput();
         if (usrCity != null && usrZip != null) {
-            constraint = "WHERE CITY = " + usrCity + " AND ZIP_CODE = " + usrZip + ";";
+            constraint = "WHERE CITY = '" + usrCity + "' AND ZIP_CODE = '"+ usrZip +"';";
         }
         if (usrCity != null && usrZip ==null){
-            constraint = "WHERE CITY = "+usrCity+";";
+            constraint = "WHERE CITY = '"+usrCity+"';";
         }
         if (usrCity == null && usrZip !=null){
-            constraint = "WHERE ZIP_CODE = "+usrZip +";";
+            constraint = "WHERE ZIP_CODE = '"+usrZip +"';";
         }
         return constraint;
     }

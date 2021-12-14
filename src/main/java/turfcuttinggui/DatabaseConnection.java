@@ -25,7 +25,7 @@ public class DatabaseConnection {
         return databaseLink;
     }
     public ResultSet getResultSet(String query){
-        ResultSet resultSet = null;
+       ResultSet resultSet = null;
         try {
             DatabaseConnection dbConnect = new DatabaseConnection();
             Connection connection = dbConnect.getConnection();
